@@ -12,7 +12,8 @@
   --line-strong:rgba(245,239,230,.22);
   --cream:#f5efe6;
   --cream-dim:#cfc6b8;
-  --muted:#8f887e;
+  --muted:#a39c94;
+  color-scheme:dark;            /* native widgets: select popups, scrollbars, autofill */
   --gold:#c8a35a;
   --gold-soft:rgba(200,163,90,.16);
   --oxblood:#8e1c2b;
@@ -175,7 +176,7 @@ h4{font-size:1.02rem;font-family:var(--sans);font-weight:600;letter-spacing:.02e
 .rhythm{display:grid;grid-template-columns:repeat(7,1fr);gap:.6rem;margin-top:2.4rem}
 .day{
   border:1px solid var(--line);border-radius:3px;padding:1.1rem .7rem;text-align:center;
-  background:var(--panel);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  background:var(--panel);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-dim);
 }
 .day b{display:block;font-family:var(--serif);font-size:1.15rem;letter-spacing:0;text-transform:none;color:var(--cream-dim);margin-bottom:.5rem}
 .day.is-shoot{background:linear-gradient(180deg,rgba(200,163,90,.16),rgba(200,163,90,.04));border-color:rgba(200,163,90,.4);color:var(--gold)}
@@ -204,7 +205,7 @@ h4{font-size:1.02rem;font-family:var(--sans);font-weight:600;letter-spacing:.02e
 }
 .release-thumb::after{content:"";position:absolute;inset:8px;border:1px solid rgba(245,239,230,.07)}
 .release-thumb .mono{
-  font-family:var(--serif);font-size:2.1rem;color:rgba(245,239,230,.42);letter-spacing:.1em;text-align:center;line-height:1;
+  font-family:var(--serif);font-size:2.1rem;color:rgba(245,239,230,.62);letter-spacing:.1em;text-align:center;line-height:1;
 }
 .release-body{padding:1rem 1.05rem 1.2rem}
 .release-body h4{margin:0 0 .3rem;font-family:var(--serif);font-size:1.02rem;font-weight:600}
@@ -229,7 +230,7 @@ h4{font-size:1.02rem;font-family:var(--sans);font-weight:600;letter-spacing:.02e
     linear-gradient(155deg,#191920,#0b0b0f);
   display:grid;place-items:center;overflow:hidden;
 }
-.portrait .initials{font-family:var(--serif);font-size:clamp(3rem,9vw,5.6rem);color:rgba(245,239,230,.2);letter-spacing:.08em}
+.portrait .initials{font-family:var(--serif);font-size:clamp(3rem,9vw,5.6rem);color:rgba(245,239,230,.36);letter-spacing:.08em}
 .portrait .caption{
   position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.3rem;
   background:linear-gradient(transparent,rgba(8,8,10,.92));
@@ -269,6 +270,22 @@ h4{font-size:1.02rem;font-family:var(--sans);font-weight:600;letter-spacing:.02e
   padding:.85rem 1rem;color:var(--cream);font-family:var(--sans);font-size:.95rem;
 }
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+
+/* the select popup is drawn by the browser, not by our panel colours: without
+   these rules the option list renders light with cream text on it (~1.1:1) */
+.field input,.field select,.field textarea{color-scheme:dark}
+.field select option{background:#15151A;color:var(--cream)}
+.field select option:checked,
+.field select option:hover{background:var(--gold);color:#12100c}
+.field ::placeholder{color:#928b83;opacity:1}
+.field input:-webkit-autofill,
+.field input:-webkit-autofill:hover,
+.field input:-webkit-autofill:focus,
+.field textarea:-webkit-autofill{
+  -webkit-text-fill-color:var(--cream);
+  -webkit-box-shadow:0 0 0 1000px #15151A inset;
+  caret-color:var(--cream);
+}
 .field textarea{min-height:130px;resize:vertical}
 .form-note{font-size:.8rem;color:var(--muted);margin-top:.4rem}
 
