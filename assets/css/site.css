@@ -146,9 +146,13 @@ h4{font-size:1.02rem;font-family:var(--sans);font-weight:600;letter-spacing:.02e
 
 /* ---------- marquee strip ---------- */
 .strip{border-block:1px solid var(--line);background:var(--ink-2);overflow:hidden}
-.strip-track{display:flex;gap:3rem;padding:.95rem 0;white-space:nowrap;animation:slide 34s linear infinite;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
-.strip-track span{display:inline-flex;align-items:center;gap:3rem}
-.strip-track span::after{content:"◆";color:var(--gold);font-size:.6rem}
+.strip-track{display:flex;width:max-content;animation:slide 46s linear infinite}
+.strip-group{display:flex;align-items:center;padding:.95rem 0;flex:none}
+.strip-group span{
+  display:inline-flex;align-items:center;white-space:nowrap;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+}
+.strip-group span::after{content:"◆";color:var(--gold);font-size:.55rem;margin:0 2.4rem}
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.strip-track{animation:none}}
 
@@ -178,7 +182,13 @@ h4{font-size:1.02rem;font-family:var(--sans);font-weight:600;letter-spacing:.02e
 .day.is-shoot b{color:var(--gold)}
 .day.is-live{background:linear-gradient(180deg,rgba(142,28,43,.22),rgba(142,28,43,.05));border-color:rgba(142,28,43,.5);color:#e8a3a9}
 .day.is-live b{color:#e8a3a9}
-@media(max-width:720px){.rhythm{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:720px){.rhythm{grid-template-columns:repeat(3,1fr);gap:.5rem}}
+@media(max-width:560px){
+  /* stack the week: label left, activity right — no squeezed cells */
+  .rhythm{grid-template-columns:1fr;gap:.45rem;margin-top:1.8rem}
+  .day{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:.72rem 1rem;letter-spacing:.12em}
+  .day b{margin:0;font-size:1rem;letter-spacing:0}
+}
 
 /* ---------- release grid ---------- */
 .releases{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;margin-top:2.6rem}
@@ -303,3 +313,80 @@ h4{font-size:1.02rem;font-family:var(--sans);font-weight:600;letter-spacing:.02e
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .page-head{padding:clamp(3.5rem,8vw,6.5rem) 0 clamp(2rem,4vw,3rem);border-bottom:1px solid var(--line);
   background:radial-gradient(800px 400px at 15% 0%,rgba(200,163,90,.12),transparent 62%),var(--ink)}
+
+/* ============================================================
+   MOBILE REFINEMENTS
+   Small screens: let text fill the measure, wrap cleanly,
+   and stop any card from squeezing a phrase into a column.
+   ============================================================ */
+
+h1,h2,h3,h4,p,li,.caption,.hero-sub,
+.release-body h4,.stat b,.day b,.card h3{overflow-wrap:break-word}
+
+@media(max-width:760px){
+  body{font-size:16px;line-height:1.6}
+  .wrap{width:calc(100% - 2.25rem)}
+  .section{padding:2.75rem 0}
+
+  /* ticker becomes a wrapped set of chips instead of an off-screen marquee */
+  .strip-track{animation:none;width:100%}
+  .strip-group--clone{display:none}
+  .strip-group{
+    width:100%;flex-wrap:wrap;justify-content:center;
+    gap:.45rem .5rem;padding:.85rem .9rem;
+  }
+  .strip-group span{
+    padding:.34rem .72rem;border:1px solid var(--line);border-radius:100px;
+    font-size:.6rem;letter-spacing:.12em;line-height:1.5;color:var(--cream-dim);
+    white-space:normal;text-align:center;
+  }
+  .strip-group span::after{content:none}
+
+  /* hero numbers: even two-up grid, no ragged 120px minimums */
+  .hero-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem 1rem;margin-top:2rem;padding-top:1.35rem}
+  .hero-meta div{min-width:0}
+  .hero-meta b{font-size:1.35rem}
+  .hero-meta span{font-size:.64rem;letter-spacing:.1em;line-height:1.5;display:block}
+
+  .hero{min-height:auto}
+  .hero-inner{padding:3rem 0 2.5rem}
+  .hero h1{max-width:none}
+
+  .card{padding:1.5rem 1.25rem}
+  .card p{font-size:.94rem}
+  .tick li{font-size:.92rem;gap:.7rem}
+  .tick li::before{line-height:1.75}
+
+  .band{padding:1.75rem 1.35rem;gap:1.5rem}
+  .band .btn{width:100%}
+
+  .releases{gap:.85rem}
+  .release-body{padding:.85rem .9rem 1rem}
+  .release-body h4{font-size:.98rem;line-height:1.35}
+  .release-thumb .mono{font-size:1.7rem}
+
+  .stat{padding:1.25rem 1rem}
+  .stat span{letter-spacing:.1em;line-height:1.5}
+
+  .footer{padding:2.75rem 0 2rem}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:.75rem;line-height:1.6}
+
+  .nav-inner{height:64px;gap:1rem}
+  .nav .btn{padding:.72rem 1rem;font-size:.68rem;letter-spacing:.12em;white-space:nowrap}
+  .brand{font-size:1rem;letter-spacing:.12em}
+
+  .page-head{padding:2.75rem 0 1.5rem}
+
+  .gate{padding:1rem}
+  .gate-panel{padding:1.75rem 1.35rem}
+  .gate-actions .btn{padding:.9rem 1rem;font-size:.72rem;letter-spacing:.1em}
+
+  .form .btn{width:100%}
+}
+
+@media(max-width:430px){
+  .nav .btn{display:none}
+  .btn-row{flex-direction:column;align-items:stretch}
+  .btn-row .btn{width:100%}
+  .portrait .caption{font-size:.64rem;letter-spacing:.12em;line-height:1.5}
+}
