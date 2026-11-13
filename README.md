@@ -19,7 +19,8 @@ legal.html          Terms, privacy, 18+ and compliance notes
 assets/css/site.css Design system (ink / cream / gold / oxblood)
 assets/js/site.js   Age gate, nav state, enquiry form composer
 business-plan/      twirler-business_plan1.pdf — the growth plan
-tools/              Python script that regenerates the business plan PDF
+tools/              build_business_plan.py (PDF), audit_contrast.py (a11y check)
+docs/               contrast-audit.md — generated report, 43 surfaces
 DEPLOY.md           Deploying to Hatchable (and anywhere else)
 ```
 
@@ -45,6 +46,23 @@ See **[DEPLOY.md](DEPLOY.md)**. Short version for Hatchable: zip the repo conten
 - **Non-explicit placeholders.** Release thumbnails are typographic (`LC 041`), not imagery — the site is safe to show to a host, an investor or a payment processor while the real stills are pending.
 - **Age gate is a notice, not assurance.** It satisfies courtesy expectations. UK public launch needs a real age-assurance measure; see `legal.html`.
 - **No third-party scripts.** No analytics, no ad pixels, no cookie banner needed. Add tooling deliberately and document it.
+
+## Accessibility
+
+- Every text surface is measured against the colour it actually renders on
+  (translucent fills are composited first). Run the audit after any palette change:
+
+  ```bash
+  python3 tools/audit_contrast.py --write
+  ```
+
+  It exits non-zero if anything drops below WCAG AA (4.5:1 body, 3:1 large),
+  so it can gate a deploy. Current state: 43/43 pass.
+- Keyboard focus is visible site-wide (`:focus-visible`), there is a skip link,
+  and interactive targets are at least 44px.
+- `color-scheme: dark` plus explicit `option`/placeholder/autofill styling keeps
+  browser-native widgets (the booking form's dropdown especially) from rendering
+  light-on-dark text.
 
 ## Secrets
 

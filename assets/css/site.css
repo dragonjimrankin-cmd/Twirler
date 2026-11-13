@@ -407,3 +407,49 @@ h1,h2,h3,h4,p,li,.caption,.hero-sub,
   .btn-row .btn{width:100%}
   .portrait .caption{font-size:.64rem;letter-spacing:.12em;line-height:1.5}
 }
+
+/* ============================================================
+   ACCESSIBILITY — focus, tap targets, skip link
+   ============================================================ */
+
+/* visible keyboard focus (mouse users see nothing extra) */
+:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+  border-radius:2px;
+}
+.btn:focus-visible,
+.gate-actions .btn:focus-visible{outline-offset:4px}
+a:focus-visible{outline-offset:4px}
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+
+/* skip straight to the content */
+.skip-link{
+  position:absolute;left:-9999px;top:0;z-index:300;
+  background:var(--gold);color:#12100c;
+  padding:.8rem 1.2rem;font-size:.76rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+}
+.skip-link:focus{left:1rem;top:1rem}
+
+/* comfortable tap targets */
+.btn{min-height:44px}
+.nav-links a{min-height:44px;display:inline-flex;align-items:center}
+.footer a{display:inline-block;padding-block:.15rem}
+.field input,.field select,.field textarea{min-height:44px}
+
+/* nothing behind the gate should scroll */
+html.gated,html.gated body{overflow:hidden}
+
+/* honour reduced motion everywhere, not just the ticker */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .card:hover,.release:hover,.btn:hover{transform:none}
+}
